@@ -4,234 +4,270 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>State of the Map Asia 2026 Osaka</title>
-  <meta name="description" content="Official preparation page for State of the Map Asia 2026 Osaka" />
+  <meta name="description" content="State of the Map Asia 2026 Osaka" />
   <meta property="og:title" content="State of the Map Asia 2026 Osaka" />
-  <meta property="og:description" content="OpenStreetMap conference in Asia, planned in Osaka (preparation stage)" />
+  <meta property="og:description" content="OpenStreetMap conference in Asia, planned in Osaka" />
   <meta property="og:type" content="website" />
+  <link href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="hero">
-    <nav class="topbar">
-      <div class="brand">SotM Asia 2026 Osaka</div>
-      <div class="nav-actions">
-        <button id="lang-toggle" class="lang-toggle" type="button" aria-label="Switch language">日本語</button>
-      </div>
-    </nav>
+  <div class="bg-glow"></div>
 
-    <div class="hero-inner">
-      <p class="eyebrow" data-i18n="eyebrow">OpenStreetMap Conference in Asia</p>
-      <h1 data-i18n="hero_title">State of the Map Asia 2026 Osaka</h1>
-      <p class="lead" data-i18n="hero_lead">
-        State of the Map Asia is a regional conference by the OpenStreetMap community.
-      </p>
-      <div class="hero-meta">
-        <span data-i18n="hero_date">Planned dates: September 6 (Sun) - 7 (Mon), 2026</span>
-        <span data-i18n="hero_location">Proposed host area: Nakazakichō, Kita-ku, Osaka</span>
-      </div>
-    </div>
+  <header class="topbar">
+    <div class="brand">SotM Asia 2026 Osaka</div>
+    <button id="lang-toggle" class="lang-toggle" type="button" aria-label="Switch language">日本語</button>
   </header>
 
-  <main>
-    <section class="section photo-feature" id="photo">
-      <figure>
-        <img
-          src="https://wiki.openstreetmap.org/w/images/thumb/2/21/AmanToCafe.JPG/1200px-AmanToCafe.JPG"
-          alt="Salon de AManTo 天人 exterior in Nakazakichō, Osaka"
-          loading="eager"
-        />
-        <figcaption data-i18n="photo_caption">Salon de AManTo 天人（中崎町・大阪）</figcaption>
-      </figure>
-    </section>
-
-    <section class="section card-grid" id="about">
-      <article class="card">
-        <h2 data-i18n="overview_title">Overview</h2>
-        <p data-i18n="overview_body">
-          State of the Map Asia brings together OpenStreetMap volunteers, researchers, and practitioners
-          to share mapping practices and open geospatial knowledge.
-        </p>
-      </article>
-      <article class="card">
-        <h2 data-i18n="vision_title">Vision</h2>
-        <p data-i18n="vision_body">
-          We aim to create a welcoming space for diverse participants and strengthen collaboration across Asia,
-          including humanitarian mapping, civic tech, and open data communities.
-        </p>
-      </article>
-      <article class="card">
-        <h2 data-i18n="status_title">Current Status</h2>
-        <p data-i18n="status_body">
-          This website is a working draft. Information reflects the proposal stage,
-          and confirmed details will be updated through future announcements.
-        </p>
-      </article>
-    </section>
-
-    <section class="section" id="venue">
-      <h2 data-i18n="venue_title">Venue Plan (Proposal-Based)</h2>
-      <div class="table-wrap">
-        <table>
-          <tbody>
-            <tr>
-              <th scope="row" data-i18n="th_venue">Proposed Venue</th>
-              <td data-i18n="td_venue">Nakazakichō Hall / Salon de AManTo 天人 (Osaka)</td>
-            </tr>
-            <tr>
-              <th scope="row" data-i18n="th_capacity">Expected Capacity</th>
-              <td data-i18n="td_capacity">Approx. 140 participants + 40 staff (about 180 total)</td>
-            </tr>
-            <tr>
-              <th scope="row" data-i18n="th_facilities">Facilities</th>
-              <td data-i18n="td_facilities">Wi-Fi, AV equipment, power outlets, barrier-free access</td>
-            </tr>
-            <tr>
-              <th scope="row" data-i18n="th_fee">Participation Fee (Proposed)</th>
-              <td data-i18n="td_fee">Free (advance registration required, limited capacity)</td>
-            </tr>
-          </tbody>
-        </table>
+  <main class="layout">
+    <section class="intro panel">
+      <p class="eyebrow" data-i18n="eyebrow">OpenStreetMap Conference in Asia</p>
+      <h1 data-i18n="hero_title">State of the Map Asia 2026 Osaka</h1>
+      <p class="lead" data-i18n="hero_lead">A regional gathering for mappers, researchers, and open geodata practitioners across Asia.</p>
+      <div class="meta-row">
+        <span data-i18n="hero_date">September 6 (Sun) - 7 (Mon), 2026</span>
+        <span data-i18n="hero_location">Nakazakichō, Kita-ku, Osaka</span>
       </div>
     </section>
 
-    <section class="section split" id="community">
-      <div>
-        <h2 data-i18n="community_title">Community and Organizing Structure</h2>
-        <p data-i18n="community_body">
-          The proposal envisions collaboration among the Japanese OpenStreetMap community,
-          YouthMappers, HOT Japan, and CrisisMappers Japan related members.
-        </p>
+    <section class="map-panel panel">
+      <div class="map-head">
+        <h2 data-i18n="map_title">3D Map Story</h2>
+        <p data-i18n="map_subtitle">Auto-touring key locations in and around the venue area.</p>
       </div>
-      <aside class="notice">
-        <h3 data-i18n="cfp_title">Call for Participation (Planned)</h3>
-        <p data-i18n="cfp_body">
-          Registration, call for presentations, and sponsorship details
-          will be published on this site step by step.
-        </p>
-      </aside>
+      <div id="map" aria-label="Map showing Osaka area and key points"></div>
+      <div class="poi-bar" id="poi-bar" aria-live="polite"></div>
+    </section>
+
+    <section class="info-grid">
+      <article class="panel">
+        <h3 data-i18n="overview_title">Overview</h3>
+        <p data-i18n="overview_body">State of the Map Asia brings together communities to share practical mapping knowledge, humanitarian workflows, and open geospatial ideas.</p>
+      </article>
+      <article class="panel">
+        <h3 data-i18n="venue_title">Proposed Venue</h3>
+        <p data-i18n="venue_body">Nakazakichō Hall / Salon de AManTo 天人 (Osaka)</p>
+      </article>
+      <article class="panel license-panel">
+        <p class="license" data-i18n="footer_copy">© State of the Map Asia 2026 Osaka Team, CC0</p>
+        <img class="cc0-mark" src="https://licensebuttons.net/p/zero/1.0/88x31.png" alt="Creative Commons CC0" width="88" height="31" loading="lazy" />
+      </article>
     </section>
   </main>
 
-  <footer class="footer">
-    <p class="license" data-i18n="footer_copy">© State of the Map Asia 2026 Osaka Team, CC0</p>
-    <img
-      class="cc0-mark"
-      src="https://licensebuttons.net/p/zero/1.0/88x31.png"
-      alt="Creative Commons CC0"
-      width="88"
-      height="31"
-      loading="lazy"
-    />
-    <p>
-      <span data-i18n="footer_source">Source proposal:</span>
-      <a href="https://wiki.openstreetmap.org/wiki/State_of_the_Map_Asia_2026/Call_for_Venues/Japan" target="_blank" rel="noopener noreferrer" data-i18n="footer_link">
-        OpenStreetMap Wiki - Call for Venues (Japan)
-      </a>
-    </p>
-  </footer>
-
+  <script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"></script>
   <script>
     (function () {
-      const metaDescription = document.querySelector('meta[name="description"]');
-      const ogDescription = document.querySelector('meta[property="og:description"]');
-      const toggle = document.getElementById('lang-toggle');
-
       const dict = {
         en: {
           html_lang: 'en',
           toggle_label: '日本語',
-          description: 'Official preparation page for State of the Map Asia 2026 Osaka',
-          og_description: 'OpenStreetMap conference in Asia, planned in Osaka (preparation stage)',
+          description: 'State of the Map Asia 2026 Osaka',
+          og_description: 'OpenStreetMap conference in Asia, planned in Osaka',
           eyebrow: 'OpenStreetMap Conference in Asia',
           hero_title: 'State of the Map Asia 2026 Osaka',
-          hero_lead: 'State of the Map Asia is a regional conference by the OpenStreetMap community.',
-          hero_date: 'Planned dates: September 6 (Sun) - 7 (Mon), 2026',
-          hero_location: 'Proposed host area: Nakazakichō, Kita-ku, Osaka',
+          hero_lead: 'A regional gathering for mappers, researchers, and open geodata practitioners across Asia.',
+          hero_date: 'September 6 (Sun) - 7 (Mon), 2026',
+          hero_location: 'Nakazakichō, Kita-ku, Osaka',
+          map_title: '3D Map Story',
+          map_subtitle: 'Auto-touring key locations in and around the venue area.',
           overview_title: 'Overview',
-          overview_body: 'State of the Map Asia brings together OpenStreetMap volunteers, researchers, and practitioners to share mapping practices and open geospatial knowledge.',
-          vision_title: 'Vision',
-          vision_body: 'We aim to create a welcoming space for diverse participants and strengthen collaboration across Asia, including humanitarian mapping, civic tech, and open data communities.',
-          status_title: 'Current Status',
-          status_body: 'This website is a working draft. Information reflects the proposal stage, and confirmed details will be updated through future announcements.',
-          venue_title: 'Venue Plan (Proposal-Based)',
-          th_venue: 'Proposed Venue',
-          td_venue: 'Nakazakichō Hall / Salon de AManTo 天人 (Osaka)',
-          th_capacity: 'Expected Capacity',
-          td_capacity: 'Approx. 140 participants + 40 staff (about 180 total)',
-          th_facilities: 'Facilities',
-          td_facilities: 'Wi-Fi, AV equipment, power outlets, barrier-free access',
-          th_fee: 'Participation Fee (Proposed)',
-          td_fee: 'Free (advance registration required, limited capacity)',
-          photo_caption: 'Salon de AManTo 天人 (Nakazakichō, Osaka)',
-          community_title: 'Community and Organizing Structure',
-          community_body: 'The proposal envisions collaboration among the Japanese OpenStreetMap community, YouthMappers, HOT Japan, and CrisisMappers Japan related members.',
-          cfp_title: 'Call for Participation (Planned)',
-          cfp_body: 'Registration, call for presentations, and sponsorship details will be published on this site step by step.',
+          overview_body: 'State of the Map Asia brings together communities to share practical mapping knowledge, humanitarian workflows, and open geospatial ideas.',
+          venue_title: 'Proposed Venue',
+          venue_body: 'Nakazakichō Hall / Salon de AManTo 天人 (Osaka)',
           footer_copy: '© State of the Map Asia 2026 Osaka Team, CC0',
-          footer_source: 'Source proposal:',
-          footer_link: 'OpenStreetMap Wiki - Call for Venues (Japan)'
+          poi_shinosaka: 'Shin-Osaka Station',
+          poi_osaka: 'Osaka Station',
+          poi_hall: 'Nakazakichō Hall',
+          poi_pref: 'Osaka Prefecture'
         },
         ja: {
           html_lang: 'ja',
           toggle_label: 'English',
-          description: 'State of the Map Asia 2026 Osaka 公式準備ページ',
-          og_description: 'OpenStreetMap アジア会議 SotM Asia 2026 大阪（準備中）',
+          description: 'State of the Map Asia 2026 Osaka',
+          og_description: 'OpenStreetMap アジア会議 SotM Asia 2026 大阪',
           eyebrow: 'OpenStreetMap アジア会議',
           hero_title: 'State of the Map Asia 2026 Osaka',
-          hero_lead: 'OpenStreetMap コミュニティによるアジア地域会議。',
-          hero_date: '予定日: 2026年9月6日(日) - 9月7日(月)',
-          hero_location: '開催候補地: 大阪市 北区 中崎町',
+          hero_lead: 'アジア各地のマッパー、研究者、オープン地理データ実践者が集まる地域カンファレンスです。',
+          hero_date: '2026年9月6日(日) - 9月7日(月)',
+          hero_location: '大阪市北区 中崎町',
+          map_title: '3Dマップ ストーリー',
+          map_subtitle: '会場周辺の主要地点を自動で巡回表示します。',
           overview_title: 'イベント概要',
-          overview_body: 'State of the Map Asia は、OpenStreetMap のボランティア、研究者、実務者が集まり、マッピング実践やオープンデータ活用を共有するカンファレンスです。',
-          vision_title: '開催ビジョン',
-          vision_body: '多様な参加者に開かれた場をつくり、アジア各地のコミュニティ連携、人道支援マッピング、シビックテックの知見交流を促進します。',
-          status_title: '現在のステータス',
-          status_body: '本サイトは準備版です。内容は提案資料に基づくもので、正式決定事項は今後のアナウンスで更新します。',
-          venue_title: '会場計画（提案ベース）',
-          th_venue: '会場候補',
-          td_venue: '中崎町ホール / Salon de AManTo（大阪）',
-          th_capacity: '想定参加規模',
-          td_capacity: '参加者 約140名 + スタッフ 約40名（計約180名）',
-          th_facilities: '設備',
-          td_facilities: 'Wi-Fi、音響映像設備、電源、バリアフリーアクセス',
-          th_fee: '参加費（提案）',
-          td_fee: '無料（事前登録制、定員あり）',
-          photo_caption: 'Salon de AManTo 天人（中崎町・大阪）',
-          community_title: 'コミュニティと運営体制',
-          community_body: '日本の OpenStreetMap コミュニティ、YouthMappers 関係者、HOT Japan / CrisisMappers Japan 関係者などによる運営連携を想定しています。',
-          cfp_title: 'Call for Participation（予定）',
-          cfp_body: '参加登録、発表募集、スポンサー募集の詳細は、今後このページで順次公開します。',
+          overview_body: 'State of the Map Asia は、実践的なマッピング知識、人道支援ワークフロー、オープン地理情報の活用を共有する場です。',
+          venue_title: '会場候補',
+          venue_body: '中崎町ホール / Salon de AManTo 天人（大阪）',
           footer_copy: '© State of the Map Asia 2026 Osaka Team, CC0',
-          footer_source: '提案資料:',
-          footer_link: 'OpenStreetMap Wiki - Call for Venues (Japan)'
+          poi_shinosaka: '新大阪駅',
+          poi_osaka: '大阪駅',
+          poi_hall: '中崎町ホール',
+          poi_pref: '大阪府全体'
         }
       };
 
-      function applyLang(lang) {
-        const selected = dict[lang] || dict.en;
-        document.documentElement.lang = selected.html_lang;
-        if (metaDescription) metaDescription.setAttribute('content', selected.description);
-        if (ogDescription) ogDescription.setAttribute('content', selected.og_description);
-        toggle.textContent = selected.toggle_label;
+      const pois = [
+        {
+          id: 'poi_shinosaka',
+          center: [135.5009, 34.7335],
+          zoom: 15.8,
+          pitch: 62,
+          bearing: 165
+        },
+        {
+          id: 'poi_osaka',
+          center: [135.4983, 34.7025],
+          zoom: 15.6,
+          pitch: 60,
+          bearing: 220
+        },
+        {
+          id: 'poi_hall',
+          center: [135.5078, 34.7069],
+          zoom: 16.8,
+          pitch: 70,
+          bearing: 45
+        },
+        {
+          id: 'poi_pref',
+          center: [135.52, 34.68],
+          zoom: 8.4,
+          pitch: 30,
+          bearing: 0
+        }
+      ];
 
-        document.querySelectorAll('[data-i18n]').forEach((el) => {
-          const key = el.getAttribute('data-i18n');
-          if (selected[key]) {
-            el.textContent = selected[key];
-          }
+      const metaDescription = document.querySelector('meta[name="description"]');
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      const toggle = document.getElementById('lang-toggle');
+      const poiBar = document.getElementById('poi-bar');
+
+      let currentLang = localStorage.getItem('preferredLanguage') === 'ja' ? 'ja' : 'en';
+      let currentPoiIndex = 0;
+
+      function renderPoiBar() {
+        const t = dict[currentLang];
+        poiBar.innerHTML = pois.map(function (poi, idx) {
+          const active = idx === currentPoiIndex ? 'active' : '';
+          return '<button class="poi-chip ' + active + '" data-poi="' + idx + '">' + t[poi.id] + '</button>';
+        }).join('');
+
+        poiBar.querySelectorAll('.poi-chip').forEach(function (chip) {
+          chip.addEventListener('click', function () {
+            const idx = Number(chip.getAttribute('data-poi'));
+            flyToPoi(idx);
+            restartAutoPlay();
+          });
         });
+      }
 
+      function applyLang(lang) {
+        const t = dict[lang] || dict.en;
+        document.documentElement.lang = t.html_lang;
+        if (metaDescription) metaDescription.setAttribute('content', t.description);
+        if (ogDescription) ogDescription.setAttribute('content', t.og_description);
+        toggle.textContent = t.toggle_label;
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          const key = el.getAttribute('data-i18n');
+          if (t[key]) el.textContent = t[key];
+        });
+        renderPoiBar();
         localStorage.setItem('preferredLanguage', lang);
       }
 
-      const saved = localStorage.getItem('preferredLanguage');
-      let currentLang = saved === 'ja' ? 'ja' : 'en';
       applyLang(currentLang);
 
       toggle.addEventListener('click', function () {
         currentLang = currentLang === 'en' ? 'ja' : 'en';
         applyLang(currentLang);
       });
+
+      const map = new maplibregl.Map({
+        container: 'map',
+        style: 'https://tiles.openfreemap.org/styles/liberty',
+        center: pois[0].center,
+        zoom: pois[0].zoom,
+        pitch: pois[0].pitch,
+        bearing: pois[0].bearing,
+        antialias: true
+      });
+
+      map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
+
+      map.on('load', function () {
+        map.addSource('mapterhorn-dem', {
+          type: 'raster-dem',
+          url: 'https://tiles.mapterhorn.com/tilejson.json'
+        });
+
+        map.setTerrain({ source: 'mapterhorn-dem', exaggeration: 1.25 });
+
+        map.addLayer({
+          id: 'sky',
+          type: 'sky',
+          paint: {
+            'sky-type': 'atmosphere',
+            'sky-atmosphere-sun': [0.0, 90.0],
+            'sky-atmosphere-sun-intensity': 8
+          }
+        });
+
+        const style = map.getStyle();
+        const has3dBuildings = style.layers.some(function (layer) {
+          return layer.type === 'fill-extrusion';
+        });
+
+        if (!has3dBuildings) {
+          const vectorSourceId = Object.keys(style.sources).find(function (id) {
+            return style.sources[id] && style.sources[id].type === 'vector';
+          });
+
+          if (vectorSourceId) {
+            map.addLayer({
+              id: '3d-buildings-fallback',
+              source: vectorSourceId,
+              'source-layer': 'building',
+              type: 'fill-extrusion',
+              minzoom: 14,
+              paint: {
+                'fill-extrusion-color': '#d7b97c',
+                'fill-extrusion-height': ['coalesce', ['get', 'render_height'], ['get', 'height'], 8],
+                'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], ['get', 'min_height'], 0],
+                'fill-extrusion-opacity': 0.75
+              }
+            });
+          }
+        }
+
+        pois.forEach(function (poi) {
+          new maplibregl.Marker({ color: '#1ea7fd' }).setLngLat(poi.center).addTo(map);
+        });
+      });
+
+      function flyToPoi(idx) {
+        currentPoiIndex = idx % pois.length;
+        const poi = pois[currentPoiIndex];
+        map.flyTo({
+          center: poi.center,
+          zoom: poi.zoom,
+          pitch: poi.pitch,
+          bearing: poi.bearing,
+          speed: 0.4,
+          curve: 1.35,
+          essential: true
+        });
+        renderPoiBar();
+      }
+
+      let timer = null;
+      function restartAutoPlay() {
+        if (timer) clearInterval(timer);
+        timer = setInterval(function () {
+          flyToPoi((currentPoiIndex + 1) % pois.length);
+        }, 7000);
+      }
+
+      flyToPoi(0);
+      restartAutoPlay();
     })();
   </script>
 </body>
