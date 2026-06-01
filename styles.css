@@ -1,12 +1,12 @@
 :root {
-  --bg: #071018;
-  --bg-soft: #0f1f2b;
-  --line: #1f3344;
-  --text: #eaf4ff;
-  --muted: #a5bfce;
-  --accent: #38d0ff;
-  --accent-2: #42f3b2;
-  --panel: rgba(12, 26, 38, 0.8);
+  --bg: #f8f9fa;
+  --bg-soft: #eceef0;
+  --line: #4a4a4a;
+  --text: #2a2a2a;
+  --muted: #5f5f5f;
+  --accent: #c8161d;
+  --accent-2: #ffd700;
+  --panel: rgba(255, 255, 255, 0.92);
 }
 
 * {
@@ -17,10 +17,7 @@ body {
   margin: 0;
   color: var(--text);
   font-family: "Avenir Next", "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
-  background:
-    radial-gradient(circle at 18% 12%, #13314f 0%, transparent 34%),
-    radial-gradient(circle at 85% 25%, #173e31 0%, transparent 30%),
-    linear-gradient(180deg, #050c13 0%, #091420 100%);
+  background: #ffffff;
   min-height: 100vh;
 }
 
@@ -28,7 +25,7 @@ body {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle at 50% -10%, rgba(56, 208, 255, 0.22), transparent 50%);
+  background: transparent;
   z-index: 0;
 }
 
@@ -52,13 +49,13 @@ body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 700;
-  color: #b8d8e8;
+  color: #3f3f3f;
 }
 
 .lang-toggle {
-  border: 1px solid #2d546e;
-  background: linear-gradient(135deg, #1c4159, #112d41);
-  color: #e8f7ff;
+  border: 1px solid #7a7a7a;
+  background: #ffffff;
+  color: #2f2f2f;
   border-radius: 999px;
   padding: 0.5rem 0.95rem;
   font: inherit;
@@ -77,7 +74,8 @@ body {
   border: 1px solid var(--line);
   background: var(--panel);
   border-radius: 18px;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 10px 24px rgba(74, 74, 74, 0.08);
 }
 
 .intro {
@@ -86,11 +84,15 @@ body {
 
 .eyebrow {
   margin: 0;
-  color: var(--accent-2);
+  color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.8rem;
   font-weight: 700;
+}
+
+.hero-title-accent {
+  color: var(--accent);
 }
 
 h1 {
@@ -113,11 +115,11 @@ h1 {
 }
 
 .meta-row span {
-  border: 1px solid #355168;
+  border: 1px solid #8f8f8f;
   border-radius: 999px;
   padding: 0.35rem 0.75rem;
   font-size: 0.9rem;
-  color: #d4e8f6;
+  color: #3b3b3b;
 }
 
 .map-panel {
@@ -150,9 +152,9 @@ h1 {
 }
 
 .story-btn {
-  border: 1px solid #34536a;
-  background: #0e2434;
-  color: #cfe7f7;
+  border: 1px solid #8a8a8a;
+  background: #ffffff;
+  color: #3a3a3a;
   border-radius: 999px;
   padding: 0.38rem 0.8rem;
   font-size: 0.84rem;
@@ -160,14 +162,14 @@ h1 {
 }
 
 .story-btn:hover {
-  background: #153248;
+  background: #f2f2f2;
 }
 
 .story-btn.active {
-  background: linear-gradient(135deg, #1d6f92, #167f67);
-  border-color: #4cd1f8;
+  background: linear-gradient(135deg, #c8161d, #a91219);
+  border-color: #c8161d;
   color: #ffffff;
-  box-shadow: 0 0 0 2px rgba(76, 209, 248, 0.25);
+  box-shadow: 0 0 0 2px rgba(200, 22, 29, 0.2);
 }
 
 @media (max-width: 720px) {
@@ -185,7 +187,7 @@ h1 {
   width: 100%;
   height: min(68vh, 640px);
   border-radius: 14px;
-  border: 1px solid #29465d;
+  border: 1px solid #8d8d8d;
 }
 
 .poi-bar {
@@ -196,9 +198,9 @@ h1 {
 }
 
 .poi-chip {
-  border: 1px solid #34536a;
-  background: #0e2434;
-  color: #cfe7f7;
+  border: 1px solid #8a8a8a;
+  background: #ffffff;
+  color: #3a3a3a;
   border-radius: 999px;
   padding: 0.4rem 0.75rem;
   font-size: 0.85rem;
@@ -206,8 +208,8 @@ h1 {
 }
 
 .poi-chip.active {
-  background: linear-gradient(135deg, #1d6f92, #167f67);
-  border-color: #4cd1f8;
+  background: linear-gradient(135deg, #c8161d, #a91219);
+  border-color: #c8161d;
   color: #fff;
 }
 
@@ -263,6 +265,7 @@ h1 {
 
 h3 {
   margin: 0 0 0.5rem;
+  color: var(--accent);
 }
 
 .info-grid p {
@@ -277,7 +280,7 @@ h3 {
 }
 
 .license {
-  color: #d5e8f6;
+  color: #3d3d3d;
   margin-bottom: 0.45rem;
 }
 

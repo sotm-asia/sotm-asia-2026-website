@@ -285,6 +285,8 @@
           if (!t[key]) return;
           if (key === 'venue_body') {
             el.innerHTML = t[key];
+          } else if (key === 'hero_title') {
+            el.innerHTML = t[key].replace('Asia', '<span class="hero-title-accent">Asia</span>');
           } else {
             el.textContent = t[key];
           }
@@ -366,7 +368,7 @@
             new maplibregl.Marker({ color: '#e53935', scale: 1.5 }).setLngLat(poi.center).addTo(map);
             return;
           }
-          new maplibregl.Marker({ color: '#1ea7fd' }).setLngLat(poi.center).addTo(map);
+          new maplibregl.Marker({ color: '#4A4A4A' }).setLngLat(poi.center).addTo(map);
         });
       });
 
