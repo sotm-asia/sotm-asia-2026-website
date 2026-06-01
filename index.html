@@ -76,6 +76,8 @@
           venue_title: 'Proposed Venue',
           venue_body: 'Nakazakichō Hall / Salon de AManTo 天人 (Osaka)',
           footer_copy: '© State of the Map Asia 2026 Osaka Team, CC0',
+          poi_asia: 'Asia',
+          poi_japan: 'Japan',
           poi_icch: 'FOSS4G Hiroshima',
           poi_shinosaka: 'Shin-Osaka Station',
           poi_osaka: 'Osaka Station',
@@ -100,6 +102,8 @@
           venue_title: '会場候補',
           venue_body: '中崎町ホール / Salon de AManTo 天人（大阪）',
           footer_copy: '© State of the Map Asia 2026 Osaka Team, CC0',
+          poi_asia: 'アジア',
+          poi_japan: '日本',
           poi_icch: 'FOSS4G Hiroshima',
           poi_shinosaka: '新大阪駅',
           poi_osaka: '大阪駅',
@@ -110,6 +114,20 @@
       };
 
       const pois = [
+        {
+          id: 'poi_asia',
+          center: [100.0, 28.0],
+          zoom: 2.10,
+          pitch: 20,
+          bearing: -10
+        },
+        {
+          id: 'poi_japan',
+          center: [138.2, 37.0],
+          zoom: 4.7,
+          pitch: 20,
+          bearing: -10
+        },
         {
           id: 'poi_icch',
           center: [132.4526, 34.3920],
@@ -206,6 +224,7 @@
         zoom: pois[0].zoom,
         pitch: pois[0].pitch,
         bearing: pois[0].bearing,
+        bearingSnap: 0,
         antialias: true
       });
 
@@ -257,6 +276,7 @@
         }
 
         pois.forEach(function (poi) {
+          if (poi.id === 'poi_asia' || poi.id === 'poi_japan') return;
           new maplibregl.Marker({ color: '#1ea7fd' }).setLngLat(poi.center).addTo(map);
         });
       });
@@ -265,13 +285,14 @@
         if (!map || !map.isStyleLoaded()) return;
         currentPoiIndex = idx % pois.length;
         const poi = pois[currentPoiIndex];
-        map.flyTo({
+        map.stop();
+        map.easeTo({
           center: poi.center,
           zoom: poi.zoom,
           pitch: poi.pitch,
           bearing: poi.bearing,
-          speed: 0.4,
-          curve: 1.35,
+          duration: 10000,
+          easing: function (t) { return t * (2 - t); },
           essential: true
         });
         renderPoiBar();
