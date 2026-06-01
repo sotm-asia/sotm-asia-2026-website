@@ -69,8 +69,8 @@
           hero_lead: 'A regional gathering for mappers, researchers, and open geodata practitioners across Asia.',
           hero_date: 'September 6 (Sun) - 7 (Mon), 2026',
           hero_location: 'Nakazakichō, Kita-ku, Osaka',
-          map_title: '3D Map Story',
-          map_subtitle: 'Auto-touring key locations in and around the venue area.',
+          map_title: 'Road to SotM Asia 2026 OSAKA',
+          map_subtitle: 'See you soon at Nakazakichō, OSAKA!',
           overview_title: 'Overview',
           overview_body: 'State of the Map Asia brings together communities to share practical mapping knowledge, humanitarian workflows, and open geospatial ideas.',
           venue_title: 'Proposed Venue',
@@ -96,8 +96,8 @@
           hero_lead: 'アジア各地のマッパー、研究者、オープン地理データ実践者が集まる地域カンファレンスです。',
           hero_date: '2026年9月6日(日) - 9月7日(月)',
           hero_location: '大阪市北区 中崎町',
-          map_title: '3Dマップ ストーリー',
-          map_subtitle: '会場周辺の主要地点を自動で巡回表示します。',
+          map_title: 'SotM Asia 2026 OSAKA への道',
+          map_subtitle: '中崎町で会いましょう！',
           overview_title: 'イベント概要',
           overview_body: 'State of the Map Asia は、実践的なマッピング知識、人道支援ワークフロー、オープン地理情報の活用を共有する場です。',
           venue_title: '会場候補',
@@ -195,6 +195,42 @@
 
       let currentLang = localStorage.getItem('preferredLanguage') === 'ja' ? 'ja' : 'en';
       let currentPoiIndex = 0;
+      let activePopup = null;
+      let popupTimer = null;
+
+      const poiMeta = {
+        poi_icch: {
+          image: 'assets/FOSS4G2026HIROSHIMA_logo.png',
+          eventUrl: 'https://2026.foss4g.org',
+          permalink: 'https://omaps.app/421Ss1_XBk/FOSS4G%202026%20Hiroshima',
+          descriptionJa: 'SotM Asia は FOSS4G Hiroshima カンファレンス連携の公式コミュニティ・イベントです。広島から新幹線で約1.5時間で大阪に到着します。',
+          descriptionEn: 'SotM Asia is an official community event in collaboration with the FOSS4G Hiroshima conference. You can reach Osaka from Hiroshima in about 1.5 hours by Shinkansen.'
+        },
+        poi_shinosaka: {
+          image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/JR_Shin-Osaka_Station.jpg/640px-JR_Shin-Osaka_Station.jpg',
+          eventUrl: 'https://example.com/events/shin-osaka-meetup',
+          permalink: 'https://www.openstreetmap.org/?mlat=34.7335&mlon=135.5009#map=16/34.7335/135.5009',
+          description: 'This is a placeholder description for storytelling popup content. The text explains local context, accessibility, neighborhood atmosphere, and possible conference logistics around the point of interest. It is intentionally long enough to simulate real editorial copy for testing layout behavior and readability.'
+        },
+        poi_osaka: {
+          image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Osaka_station_city.jpg/640px-Osaka_station_city.jpg',
+          eventUrl: 'https://example.com/events/osaka-community-night',
+          permalink: 'https://www.openstreetmap.org/?mlat=34.7025&mlon=135.4983#map=16/34.7025/135.4983',
+          description: 'This is a placeholder description for storytelling popup content. The text explains local context, accessibility, neighborhood atmosphere, and possible conference logistics around the point of interest. It is intentionally long enough to simulate real editorial copy for testing layout behavior and readability.'
+        },
+        poi_hall: {
+          image: 'https://wiki.openstreetmap.org/w/images/thumb/2/21/AmanToCafe.JPG/640px-AmanToCafe.JPG',
+          eventUrl: 'https://example.com/events/sotm-asia-venue',
+          permalink: 'https://www.openstreetmap.org/?mlat=34.707587&mlon=135.504760#map=18/34.707587/135.504760',
+          description: 'This is a placeholder description for storytelling popup content. The text explains local context, accessibility, neighborhood atmosphere, and possible conference logistics around the point of interest. It is intentionally long enough to simulate real editorial copy for testing layout behavior and readability.'
+        },
+        poi_kix: {
+          image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Kansai_International_Airport_Terminal_1.jpg/640px-Kansai_International_Airport_Terminal_1.jpg',
+          eventUrl: 'https://example.com/events/kix-arrival-info',
+          permalink: 'https://www.openstreetmap.org/?mlat=34.4347&mlon=135.2441#map=13/34.4347/135.2441',
+          description: 'This is a placeholder description for storytelling popup content. The text explains local context, accessibility, neighborhood atmosphere, and possible conference logistics around the point of interest. It is intentionally long enough to simulate real editorial copy for testing layout behavior and readability.'
+        }
+      };
 
       function getVisiblePoiIndexes() {
         const visible = [];
@@ -303,14 +339,27 @@
 
         pois.forEach(function (poi) {
           if (poi.showPin === false) return;
+          if (poi.id === 'poi_hall') {
+            new maplibregl.Marker({ color: '#e53935', scale: 1.5 }).setLngLat(poi.center).addTo(map);
+            return;
+          }
           new maplibregl.Marker({ color: '#1ea7fd' }).setLngLat(poi.center).addTo(map);
         });
       });
 
       function flyToPoi(idx) {
         if (!map || !map.isStyleLoaded()) return;
+        if (activePopup) {
+          activePopup.remove();
+          activePopup = null;
+        }
+        if (popupTimer) {
+          clearTimeout(popupTimer);
+          popupTimer = null;
+        }
         currentPoiIndex = idx % pois.length;
         const poi = pois[currentPoiIndex];
+        const t = dict[currentLang] || dict.en;
         map.stop();
         map.easeTo({
           center: poi.center,
@@ -321,11 +370,36 @@
           easing: function (t) { return t * (2 - t); },
           essential: true
         });
+
+        map.once('moveend', function () {
+          const meta = poiMeta[poi.id];
+          if (!meta || poi.showPin === false) return;
+          const html =
+            '<div class="poi-popup">' +
+              '<h4>' + (t[poi.id] || poi.id) + '</h4>' +
+              '<img src="' + meta.image + '" alt="' + (t[poi.id] || poi.id) + '" loading="lazy" />' +
+              '<p class="popup-desc">' + ((poi.id === 'poi_icch' && currentLang === 'ja') ? meta.descriptionJa : (poi.id === 'poi_icch' ? meta.descriptionEn : meta.description)) + '</p>' +
+              '<p><a href="' + meta.eventUrl + '" target="_blank" rel="noopener noreferrer">Related Event</a></p>' +
+              '<p><a href="' + meta.permalink + '" target="_blank" rel="noopener noreferrer">Map Permalink</a></p>' +
+            '</div>';
+
+          activePopup = new maplibregl.Popup({ offset: 20, closeButton: false, closeOnClick: false })
+            .setLngLat(poi.center)
+            .setHTML(html)
+            .addTo(map);
+
+          popupTimer = setTimeout(function () {
+            if (activePopup) {
+              activePopup.remove();
+              activePopup = null;
+            }
+          }, HOLD_DURATION_MS);
+        });
         renderPoiBar();
       }
 
       const FLY_DURATION_MS = 10000;
-      const HOLD_DURATION_MS = 2000;
+      const HOLD_DURATION_MS = 5000;
       let timer = null;
 
       function scheduleNextScene() {

@@ -165,6 +165,36 @@ h1 {
   color: #fff;
 }
 
+.poi-popup h4 {
+  margin: 0 0 0.45rem;
+  font-size: 0.95rem;
+  color: #111;
+}
+
+.poi-popup img {
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin-bottom: 0.45rem;
+}
+
+.poi-popup p {
+  margin: 0.3rem 0;
+  color: #111;
+}
+
+.poi-popup a {
+  color: #111;
+  text-decoration: underline;
+}
+
+.poi-popup .popup-desc {
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
 .info-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
