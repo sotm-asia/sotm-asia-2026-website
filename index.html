@@ -70,7 +70,7 @@
           description: 'State of the Map Asia 2026 Osaka',
           og_description: 'OpenStreetMap conference in Asia, planned in Osaka',
           eyebrow: 'OpenStreetMap Conference in Asia',
-          hero_title: 'State of the Map Asia 2026 Osaka',
+          hero_title: 'State of the Map Asia 2026 OSAKA',
           hero_lead: 'A regional gathering for mappers, researchers, and open geodata practitioners across Asia.',
           hero_date: 'September 6 (Sun) - 7 (Mon), 2026',
           hero_location: 'Nakazakichō, Kita-ku, Osaka',
@@ -99,7 +99,7 @@
           description: 'State of the Map Asia 2026 Osaka',
           og_description: 'OpenStreetMap アジア会議 SotM Asia 2026 大阪',
           eyebrow: 'OpenStreetMap アジア会議',
-          hero_title: 'State of the Map Asia 2026 Osaka',
+          hero_title: 'State of the Map Asia 2026 OSAKA',
           hero_lead: 'アジア各地のマッパー、研究者、オープン地理データ実践者が集まる地域カンファレンスです。',
           hero_date: '2026年9月6日(日) - 9月7日(月)',
           hero_location: '大阪市北区 中崎町',
@@ -286,7 +286,9 @@
           if (key === 'venue_body') {
             el.innerHTML = t[key];
           } else if (key === 'hero_title') {
-            el.innerHTML = t[key].replace('Asia', '<span class="hero-title-accent">Asia</span>');
+            el.innerHTML = t[key]
+              .replace('Asia', '<span class="hero-title-accent">Asia</span>')
+              .replace('OSAKA', '<span class="hero-title-accent">OSAKA</span>');
           } else {
             el.textContent = t[key];
           }
