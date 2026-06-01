@@ -135,6 +135,33 @@ h1 {
   font-size: 0.92rem;
 }
 
+.story-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.story-btn {
+  border: 1px solid #34536a;
+  background: #0e2434;
+  color: #cfe7f7;
+  border-radius: 999px;
+  padding: 0.38rem 0.8rem;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+
+.story-btn:hover {
+  background: #153248;
+}
+
+.story-btn.active {
+  background: linear-gradient(135deg, #1d6f92, #167f67);
+  border-color: #4cd1f8;
+  color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(76, 209, 248, 0.25);
+}
+
 #map {
   width: 100%;
   height: min(68vh, 640px);

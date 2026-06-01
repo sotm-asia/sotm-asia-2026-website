@@ -34,6 +34,10 @@
       <div class="map-head">
         <h2 data-i18n="map_title">3D Map Story</h2>
         <p data-i18n="map_subtitle">Auto-touring key locations in and around the venue area.</p>
+        <div class="story-controls">
+          <button id="story-pause" class="story-btn" type="button">Pause</button>
+          <button id="story-play" class="story-btn" type="button">Play</button>
+        </div>
       </div>
       <div id="map" aria-label="Map showing Osaka area and key points"></div>
       <div class="poi-bar" id="poi-bar" aria-live="polite"></div>
@@ -71,6 +75,8 @@
           hero_location: 'Nakazakichō, Kita-ku, Osaka',
           map_title: 'Road to SotM Asia 2026 OSAKA',
           map_subtitle: 'See you soon at Nakazakichō, OSAKA!',
+          pause_label: 'Pause',
+          play_label: 'Play',
           overview_title: 'Overview',
           overview_body: 'State of the Map Asia brings together communities to share practical mapping knowledge, humanitarian workflows, and open geospatial ideas.',
           venue_title: 'Proposed Venue',
@@ -98,6 +104,8 @@
           hero_location: '大阪市北区 中崎町',
           map_title: 'SotM Asia 2026 OSAKA への道',
           map_subtitle: '中崎町で会いましょう！',
+          pause_label: '一時停止',
+          play_label: '再生',
           overview_title: 'イベント概要',
           overview_body: 'State of the Map Asia は、実践的なマッピング知識、人道支援ワークフロー、オープン地理情報の活用を共有する場です。',
           venue_title: '会場候補',
@@ -192,11 +200,14 @@
       const ogDescription = document.querySelector('meta[property="og:description"]');
       const toggle = document.getElementById('lang-toggle');
       const poiBar = document.getElementById('poi-bar');
+      const pauseBtn = document.getElementById('story-pause');
+      const playBtn = document.getElementById('story-play');
 
       let currentLang = localStorage.getItem('preferredLanguage') === 'ja' ? 'ja' : 'en';
       let currentPoiIndex = 0;
       let activePopup = null;
       let popupTimer = null;
+      let isPaused = false;
 
       const poiMeta = {
         poi_icch: {
@@ -257,7 +268,7 @@
           chip.addEventListener('click', function () {
             const idx = Number(chip.getAttribute('data-poi'));
             flyToPoi(idx);
-            restartAutoPlay();
+            if (!isPaused) restartAutoPlay();
           });
         });
       }
@@ -272,6 +283,8 @@
           const key = el.getAttribute('data-i18n');
           if (t[key]) el.textContent = t[key];
         });
+        pauseBtn.textContent = t.pause_label;
+        playBtn.textContent = t.play_label;
         renderPoiBar();
         localStorage.setItem('preferredLanguage', lang);
       }
@@ -407,6 +420,7 @@
       let timer = null;
 
       function scheduleNextScene() {
+        if (isPaused) return;
         if (timer) clearTimeout(timer);
         timer = setTimeout(function () {
           flyToPoi((currentPoiIndex + 1) % pois.length);
@@ -418,9 +432,48 @@
         scheduleNextScene();
       }
 
+      function updateStoryButtons() {
+        if (isPaused) {
+          pauseBtn.classList.add('active');
+          playBtn.classList.remove('active');
+        } else {
+          playBtn.classList.add('active');
+          pauseBtn.classList.remove('active');
+        }
+      }
+
+      pauseBtn.addEventListener('click', function () {
+        isPaused = true;
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+        if (popupTimer) {
+          clearTimeout(popupTimer);
+          popupTimer = null;
+        }
+        updateStoryButtons();
+      });
+
+      playBtn.addEventListener('click', function () {
+        if (!isPaused) return;
+        isPaused = false;
+        if (activePopup) {
+          activePopup.remove();
+          activePopup = null;
+        }
+        if (popupTimer) {
+          clearTimeout(popupTimer);
+          popupTimer = null;
+        }
+        restartAutoPlay();
+        updateStoryButtons();
+      });
+
       map.on('load', function () {
         flyToPoi(0);
         restartAutoPlay();
+        updateStoryButtons();
       });
     })();
   </script>
