@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About SotM Asia | State of the Map Asia 2026 OSAKA</title>
+  <meta name="description" content="About State of the Map Asia 2026 OSAKA" />
+  <meta property="og:title" content="About SotM Asia | State of the Map Asia 2026 OSAKA" />
+  <meta property="og:description" content="About State of the Map Asia 2026 OSAKA" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/SotMAsia2026Osaka_Thumnail.jpg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">SotM Asia 2026 Osaka</div>
+    <div class="top-actions">
+      <button id="lang-toggle" class="lang-toggle" type="button" aria-label="Switch language">日本語</button>
+      <button id="menu-toggle" class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <nav id="site-menu" class="site-menu" aria-hidden="true">
+    <a href="index.html" data-i18n="menu_home">HOME</a>
+    <a href="about.html" class="active" data-i18n="menu_about">About SotM Asia</a>
+    <a href="news.html" data-i18n="menu_news">News</a>
+    <a href="venue.html" data-i18n="menu_venue">Venue</a>
+    <a href="schedule.html" data-i18n="menu_schedule">Schedule</a>
+  </nav>
+
+  <main class="layout">
+    <section class="panel intro">
+      <p class="eyebrow" data-i18n="eyebrow">About</p>
+      <h1 data-i18n="title">About SotM Asia</h1>
+      <p class="lead" data-i18n="lead">State of the Map Asia is a regional OpenStreetMap conference bringing together communities, mappers, researchers, and civic technologists across Asia.</p>
+    </section>
+
+    <section class="panel intro">
+      <h3 data-i18n="mission_title">Mission</h3>
+      <p data-i18n="mission_body">We promote open mapping collaboration, local knowledge sharing, and practical geospatial innovation in Asia.</p>
+      <h3 data-i18n="org_title">Organizers</h3>
+      <p>coming soon...</p>
+      <h3 data-i18n="partners_title">Partners</h3>
+      <p>coming soon...</p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const dict = {
+        en: {
+          toggle: '日本語',
+          description: 'About State of the Map Asia 2026 OSAKA',
+          og_description: 'About State of the Map Asia 2026 OSAKA',
+          menu_home: 'HOME', menu_about: 'About SotM Asia', menu_news: 'News', menu_venue: 'Venue', menu_schedule: 'Schedule',
+          eyebrow: 'About', title: 'About SotM Asia',
+          lead: 'State of the Map Asia is a regional OpenStreetMap conference bringing together communities, mappers, researchers, and civic technologists across Asia.',
+          mission_title: 'Mission', mission_body: 'We promote open mapping collaboration, local knowledge sharing, and practical geospatial innovation in Asia.',
+          org_title: 'Organizers', partners_title: 'Partners'
+        },
+        ja: {
+          toggle: 'English',
+          description: 'State of the Map Asia 2026 OSAKA の概要',
+          og_description: 'State of the Map Asia 2026 OSAKA の概要',
+          menu_home: 'HOME', menu_about: 'SotM Asia について', menu_news: 'ニュース', menu_venue: '会場', menu_schedule: 'スケジュール',
+          eyebrow: '概要', title: 'SotM Asia について',
+          lead: 'State of the Map Asia は、アジア各地のコミュニティ、マッパー、研究者、シビックテック実践者が集まる OpenStreetMap の地域カンファレンスです。',
+          mission_title: 'ミッション', mission_body: 'オープンマッピングの協働、地域知の共有、実践的な地理空間イノベーションをアジアで推進します。',
+          org_title: '運営', partners_title: 'パートナー'
+        }
+      };
+      const menuToggle = document.getElementById('menu-toggle');
+      const siteMenu = document.getElementById('site-menu');
+      const langToggle = document.getElementById('lang-toggle');
+      const metaDescription = document.querySelector('meta[name="description"]');
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      function applyLang(lang) {
+        const t = dict[lang] || dict.en;
+        document.documentElement.lang = lang;
+        langToggle.textContent = t.toggle;
+        if (metaDescription) metaDescription.setAttribute('content', t.description);
+        if (ogDescription) ogDescription.setAttribute('content', t.og_description);
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          const key = el.getAttribute('data-i18n');
+          if (t[key]) el.textContent = t[key];
+        });
+        localStorage.setItem('preferredLanguage', lang);
+      }
+      let currentLang = localStorage.getItem('preferredLanguage') === 'ja' ? 'ja' : 'en';
+      applyLang(currentLang);
+      langToggle.addEventListener('click', function () {
+        currentLang = currentLang === 'en' ? 'ja' : 'en';
+        applyLang(currentLang);
+      });
+      menuToggle.addEventListener('click', function () {
+        const open = siteMenu.classList.toggle('open');
+        menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        siteMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
+      });
+    })();
+  </script>
+</body>
+</html>

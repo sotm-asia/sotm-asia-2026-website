@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>News | State of the Map Asia 2026 OSAKA</title>
+  <meta name="description" content="News for State of the Map Asia 2026 OSAKA" />
+  <meta property="og:title" content="News | State of the Map Asia 2026 OSAKA" />
+  <meta property="og:description" content="News for State of the Map Asia 2026 OSAKA" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/SotMAsia2026Osaka_Thumnail.jpg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">SotM Asia 2026 Osaka</div>
+    <div class="top-actions">
+      <button id="lang-toggle" class="lang-toggle" type="button" aria-label="Switch language">日本語</button>
+      <button id="menu-toggle" class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <nav id="site-menu" class="site-menu" aria-hidden="true">
+    <a href="index.html" data-i18n="menu_home">HOME</a>
+    <a href="about.html" data-i18n="menu_about">About SotM Asia</a>
+    <a href="news.html" class="active" data-i18n="menu_news">News</a>
+    <a href="venue.html" data-i18n="menu_venue">Venue</a>
+    <a href="schedule.html" data-i18n="menu_schedule">Schedule</a>
+  </nav>
+
+  <main class="layout">
+    <section class="panel intro">
+      <p class="eyebrow" data-i18n="eyebrow">News</p>
+      <h1 data-i18n="title">Latest Updates</h1>
+      <p class="lead" data-i18n="lead">Announcements and official updates for State of the Map Asia 2026 OSAKA.</p>
+    </section>
+
+    <section class="panel intro">
+      <h3 data-i18n="a1">Official Announcements</h3>
+      <p>coming soon...</p>
+      <h3 data-i18n="a2">Call for Proposals</h3>
+      <p>coming soon...</p>
+      <h3 data-i18n="a3">Ticket Information</h3>
+      <p>coming soon...</p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const dict = {
+        en: { toggle: '日本語', description: 'News for State of the Map Asia 2026 OSAKA', og_description: 'News for State of the Map Asia 2026 OSAKA', menu_home: 'HOME', menu_about: 'About SotM Asia', menu_news: 'News', menu_venue: 'Venue', menu_schedule: 'Schedule', eyebrow: 'News', title: 'Latest Updates', lead: 'Announcements and official updates for State of the Map Asia 2026 OSAKA.', a1: 'Official Announcements', a2: 'Call for Proposals', a3: 'Ticket Information' },
+        ja: { toggle: 'English', description: 'State of the Map Asia 2026 OSAKA のニュース', og_description: 'State of the Map Asia 2026 OSAKA のニュース', menu_home: 'HOME', menu_about: 'SotM Asia について', menu_news: 'ニュース', menu_venue: '会場', menu_schedule: 'スケジュール', eyebrow: 'ニュース', title: '最新情報', lead: 'State of the Map Asia 2026 OSAKA の公式アナウンスと更新情報です。', a1: '公式アナウンス', a2: '発表募集', a3: 'チケット情報' }
+      };
+      const menuToggle = document.getElementById('menu-toggle');
+      const siteMenu = document.getElementById('site-menu');
+      const langToggle = document.getElementById('lang-toggle');
+      const metaDescription = document.querySelector('meta[name="description"]');
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      function applyLang(lang) { const t = dict[lang] || dict.en; document.documentElement.lang = lang; langToggle.textContent = t.toggle; if (metaDescription) metaDescription.setAttribute('content', t.description); if (ogDescription) ogDescription.setAttribute('content', t.og_description); document.querySelectorAll('[data-i18n]').forEach(function (el) { const key = el.getAttribute('data-i18n'); if (t[key]) el.textContent = t[key]; }); localStorage.setItem('preferredLanguage', lang); }
+      let currentLang = localStorage.getItem('preferredLanguage') === 'ja' ? 'ja' : 'en'; applyLang(currentLang);
+      langToggle.addEventListener('click', function () { currentLang = currentLang === 'en' ? 'ja' : 'en'; applyLang(currentLang); });
+      menuToggle.addEventListener('click', function () { const open = siteMenu.classList.toggle('open'); menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false'); siteMenu.setAttribute('aria-hidden', open ? 'false' : 'true'); });
+    })();
+  </script>
+</body>
+</html>
