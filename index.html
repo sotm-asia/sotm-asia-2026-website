@@ -76,10 +76,12 @@
           venue_title: 'Proposed Venue',
           venue_body: 'Nakazakichō Hall / Salon de AManTo 天人 (Osaka)',
           footer_copy: '© State of the Map Asia 2026 Osaka Team, CC0',
+          poi_icch: 'FOSS4G Hiroshima',
           poi_shinosaka: 'Shin-Osaka Station',
           poi_osaka: 'Osaka Station',
           poi_hall: 'Nakazakichō Hall',
-          poi_pref: 'Osaka Prefecture'
+          poi_pref: 'Osaka Prefecture',
+          poi_kix: 'Kansai International Airport (KIX)'
         },
         ja: {
           html_lang: 'ja',
@@ -98,14 +100,23 @@
           venue_title: '会場候補',
           venue_body: '中崎町ホール / Salon de AManTo 天人（大阪）',
           footer_copy: '© State of the Map Asia 2026 Osaka Team, CC0',
+          poi_icch: 'FOSS4G Hiroshima',
           poi_shinosaka: '新大阪駅',
           poi_osaka: '大阪駅',
           poi_hall: '中崎町ホール',
-          poi_pref: '大阪府全体'
+          poi_pref: '大阪府全体',
+          poi_kix: '関西国際空港(KIX)'
         }
       };
 
       const pois = [
+        {
+          id: 'poi_icch',
+          center: [132.4526, 34.3920],
+          zoom: 15.2,
+          pitch: 60,
+          bearing: 200
+        },
         {
           id: 'poi_shinosaka',
           center: [135.5009, 34.7335],
@@ -133,6 +144,13 @@
           zoom: 8.4,
           pitch: 30,
           bearing: 0
+        },
+        {
+          id: 'poi_kix',
+          center: [135.2441, 34.4347],
+          zoom: 12.8,
+          pitch: 58,
+          bearing: 130
         }
       ];
 
@@ -244,6 +262,7 @@
       });
 
       function flyToPoi(idx) {
+        if (!map || !map.isStyleLoaded()) return;
         currentPoiIndex = idx % pois.length;
         const poi = pois[currentPoiIndex];
         map.flyTo({
@@ -266,8 +285,10 @@
         }, 7000);
       }
 
-      flyToPoi(0);
-      restartAutoPlay();
+      map.on('load', function () {
+        flyToPoi(0);
+        restartAutoPlay();
+      });
     })();
   </script>
 </body>
