@@ -129,8 +129,15 @@ h1 {
   font-size: 1.3rem;
 }
 
+.map-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
 .map-head p {
-  margin: 0.25rem 0 0.8rem;
+  margin: 0.25rem 0 0.65rem;
   color: var(--muted);
   font-size: 0.92rem;
 }
@@ -138,7 +145,8 @@ h1 {
 .story-controls {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 5px;
+  margin-left: auto;
 }
 
 .story-btn {
@@ -160,6 +168,17 @@ h1 {
   border-color: #4cd1f8;
   color: #ffffff;
   box-shadow: 0 0 0 2px rgba(76, 209, 248, 0.25);
+}
+
+@media (max-width: 720px) {
+  .map-head-row {
+    flex-wrap: wrap;
+  }
+
+  .story-controls {
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
 
 #map {

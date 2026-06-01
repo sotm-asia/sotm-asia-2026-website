@@ -32,11 +32,12 @@
 
     <section class="map-panel panel">
       <div class="map-head">
-        <h2 data-i18n="map_title">3D Map Story</h2>
-        <p data-i18n="map_subtitle">Auto-touring key locations in and around the venue area.</p>
-        <div class="story-controls">
-          <button id="story-pause" class="story-btn" type="button">Pause</button>
-          <button id="story-play" class="story-btn" type="button">Play</button>
+        <div class="map-head-row">
+          <h2 data-i18n="map_title">3D Map Story</h2>
+          <div class="story-controls">
+            <button id="story-pause" class="story-btn" type="button">Pause</button>
+            <button id="story-play" class="story-btn" type="button">Play</button>
+          </div>
         </div>
       </div>
       <div id="map" aria-label="Map showing Osaka area and key points"></div>
@@ -49,7 +50,7 @@
         <p data-i18n="overview_body">State of the Map Asia brings together communities to share practical mapping knowledge, humanitarian workflows, and open geospatial ideas.</p>
       </article>
       <article class="panel">
-        <h3 data-i18n="venue_title">Proposed Venue</h3>
+        <h3 data-i18n="venue_title">Venue</h3>
         <p data-i18n="venue_body">Nakazakichō Hall / Salon de AManTo 天人 (Osaka)</p>
       </article>
       <article class="panel license-panel">
@@ -79,8 +80,8 @@
           play_label: 'Play',
           overview_title: 'Overview',
           overview_body: 'State of the Map Asia brings together communities to share practical mapping knowledge, humanitarian workflows, and open geospatial ideas.',
-          venue_title: 'Proposed Venue',
-          venue_body: 'Nakazakichō Hall / Salon de AManTo 天人 (Osaka)',
+          venue_title: 'Venue',
+          venue_body: '<a href="https://omaps.app/_3gIz5dyPt/Nakazakich%C5%8D%20Hall" target="_blank" rel="noopener noreferrer">Nakazakichō Hall</a> / <a href="https://omaps.app/83gIz5fMDs/Salon_de_AmanTo" target="_blank" rel="noopener noreferrer">Salon de AManTo 天人</a> (Osaka)',
           footer_copy: '© State of the Map Asia 2026 Osaka Team, CC0',
           poi_asia: 'Asia',
           poi_japan: 'Japan',
@@ -108,8 +109,8 @@
           play_label: '再生',
           overview_title: 'イベント概要',
           overview_body: 'State of the Map Asia は、実践的なマッピング知識、人道支援ワークフロー、オープン地理情報の活用を共有する場です。',
-          venue_title: '会場候補',
-          venue_body: '中崎町ホール / Salon de AManTo 天人（大阪）',
+          venue_title: '会場',
+          venue_body: '<a href="https://omaps.app/_3gIz5dyPt/Nakazakich%C5%8D%20Hall" target="_blank" rel="noopener noreferrer">Nakazakichō Hall</a> / <a href="https://omaps.app/83gIz5fMDs/Salon_de_AmanTo" target="_blank" rel="noopener noreferrer">Salon de AManTo 天人</a>（大阪）',
           footer_copy: '© State of the Map Asia 2026 Osaka Team, CC0',
           poi_asia: 'アジア',
           poi_japan: '日本',
@@ -281,7 +282,12 @@
         toggle.textContent = t.toggle_label;
         document.querySelectorAll('[data-i18n]').forEach(function (el) {
           const key = el.getAttribute('data-i18n');
-          if (t[key]) el.textContent = t[key];
+          if (!t[key]) return;
+          if (key === 'venue_body') {
+            el.innerHTML = t[key];
+          } else {
+            el.textContent = t[key];
+          }
         });
         pauseBtn.textContent = t.pause_label;
         playBtn.textContent = t.play_label;
