@@ -78,6 +78,7 @@
           footer_copy: '© State of the Map Asia 2026 Osaka Team, CC0',
           poi_asia: 'Asia',
           poi_japan: 'Japan',
+          poi_hiroshima_pref: 'Hiroshima Prefecture',
           poi_icch: 'FOSS4G Hiroshima',
           poi_shinosaka: 'Shin-Osaka Station',
           poi_osaka: 'Osaka Station',
@@ -104,6 +105,7 @@
           footer_copy: '© State of the Map Asia 2026 Osaka Team, CC0',
           poi_asia: 'アジア',
           poi_japan: '日本',
+          poi_hiroshima_pref: '広島県',
           poi_icch: 'FOSS4G Hiroshima',
           poi_shinosaka: '新大阪駅',
           poi_osaka: '大阪駅',
@@ -119,7 +121,17 @@
           center: [138.2, 37.0],
           zoom: 4.7,
           pitch: 20,
-          bearing: -10
+          bearing: -10,
+          showPin: false
+        },
+        {
+          id: 'poi_hiroshima_pref',
+          center: [132.8, 34.6],
+          zoom: 8.0,
+          pitch: 26,
+          bearing: 5,
+          showPin: false,
+          hideInUi: true
         },
         {
           id: 'poi_icch',
@@ -127,6 +139,15 @@
           zoom: 15.2,
           pitch: 60,
           bearing: 200
+        },
+        {
+          id: 'poi_pref',
+          center: [135.52, 34.68],
+          zoom: 8.4,
+          pitch: 30,
+          bearing: 0,
+          showPin: false,
+          hideInUi: true
         },
         {
           id: 'poi_shinosaka',
@@ -150,11 +171,13 @@
           bearing: 45
         },
         {
-          id: 'poi_pref',
+          id: 'poi_pref_final',
           center: [135.52, 34.68],
           zoom: 8.4,
           pitch: 30,
-          bearing: 0
+          bearing: 0,
+          showPin: false,
+          hideInUi: true
         },
         {
           id: 'poi_kix',
@@ -173,9 +196,19 @@
       let currentLang = localStorage.getItem('preferredLanguage') === 'ja' ? 'ja' : 'en';
       let currentPoiIndex = 0;
 
+      function getVisiblePoiIndexes() {
+        const visible = [];
+        pois.forEach(function (poi, idx) {
+          if (!poi.hideInUi) visible.push(idx);
+        });
+        return visible;
+      }
+
       function renderPoiBar() {
         const t = dict[currentLang];
-        poiBar.innerHTML = pois.map(function (poi, idx) {
+        const visibleIndexes = getVisiblePoiIndexes();
+        poiBar.innerHTML = visibleIndexes.map(function (idx) {
+          const poi = pois[idx];
           const active = idx === currentPoiIndex ? 'active' : '';
           return '<button class="poi-chip ' + active + '" data-poi="' + idx + '">' + t[poi.id] + '</button>';
         }).join('');
@@ -269,7 +302,7 @@
         }
 
         pois.forEach(function (poi) {
-          if (poi.id === 'poi_asia' || poi.id === 'poi_japan') return;
+          if (poi.showPin === false) return;
           new maplibregl.Marker({ color: '#1ea7fd' }).setLngLat(poi.center).addTo(map);
         });
       });
@@ -284,19 +317,27 @@
           zoom: poi.zoom,
           pitch: poi.pitch,
           bearing: poi.bearing,
-          duration: 10000,
+          duration: FLY_DURATION_MS,
           easing: function (t) { return t * (2 - t); },
           essential: true
         });
         renderPoiBar();
       }
 
+      const FLY_DURATION_MS = 10000;
+      const HOLD_DURATION_MS = 2000;
       let timer = null;
-      function restartAutoPlay() {
-        if (timer) clearInterval(timer);
-        timer = setInterval(function () {
+
+      function scheduleNextScene() {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(function () {
           flyToPoi((currentPoiIndex + 1) % pois.length);
-        }, 7000);
+          scheduleNextScene();
+        }, FLY_DURATION_MS + HOLD_DURATION_MS);
+      }
+
+      function restartAutoPlay() {
+        scheduleNextScene();
       }
 
       map.on('load', function () {
